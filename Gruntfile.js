@@ -21,6 +21,12 @@ var editFiles = [
     , "jQEditRangeSliderLabel.js"
   ];
 
+var editDateFiles = [
+    "jQEditDateRangeSlider.js"
+    , "jQDateRangeSliderHandle.js"
+    , "jQEditDateRangeSliderLabel.js"
+];
+
 var info = JSON.parse(fs.readFileSync("jQRangeSlider.jquery.json")),
   jshintConfig = JSON.parse(fs.readFileSync(".jshintconfig")),
   jshintConfigTests = JSON.parse(fs.readFileSync("tests/.jshintconfig"));
@@ -68,14 +74,24 @@ module.exports = function(grunt) {
           'dest/jQEditRangeSlider-withRuler-min.js': coreFiles.concat(editFiles).concat(rulerFiles)
         }
       },
+      editDate: {
+        files: {
+          'dest/jQEditDateRangeSlider-min.js': coreFiles.concat(editDateFiles)
+        }
+      },
+      editDateRuler: {
+        files: {
+          'dest/jQEditDateRangeSlider-withRuler-min.js': coreFiles.concat(editDateFiles).concat(rulerFiles)
+        }
+      },
       all: {
         files: {
-          'dest/jQAllRangeSliders-min.js': coreFiles.concat(dateFiles).concat(editFiles)
+          'dest/jQAllRangeSliders-min.js': coreFiles.concat(dateFiles).concat(editFiles).concat(editDateFiles)
         }
       },
       allRuler: {
         files: {
-          'dest/jQAllRangeSliders-withRuler-min.js': coreFiles.concat(dateFiles).concat(editFiles).concat(rulerFiles)
+          'dest/jQAllRangeSliders-withRuler-min.js': coreFiles.concat(dateFiles).concat(editFiles).concat(editDateFiles).concat(rulerFiles)
         }
       }
     },

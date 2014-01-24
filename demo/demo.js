@@ -4,11 +4,13 @@
 	function createDemos(){
 		var simple = $("<div id='slider' />").appendTo("body"),
 			date = $("<div id='date' />").appendTo("body"),
-			modifiable = $("<div id='modifiable' />").appendTo("body");
+			modifiable = $("<div id='modifiable' />").appendTo("body"),
+            dateModifiable = $("<div id='dateModifiable' />").appendTo("body");
 
 		simple.sliderDemo();
 		date.dateSliderDemo();
 		modifiable.editSliderDemo();
+        dateModifiable.editDateSliderDemo();
 	}
 
 	function changeTheme(e){

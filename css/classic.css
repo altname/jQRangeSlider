@@ -93,3 +93,14 @@ input.ui-editRangeSlider-inputValue{
 	vertical-align: middle;
 	text-align:center;
 }
+
+
+/*
+ * Edit date slider
+ */
+
+input.ui-editDateRangeSlider-inputValue{
+    width:8em;
+    vertical-align: middle;
+    text-align:center;
+}
