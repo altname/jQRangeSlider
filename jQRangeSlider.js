@@ -25,11 +25,13 @@
 			range: {min: false, max: false},
 			step: false,
 			scales: false,
-			enabled: true
+			enabled: true,
+			symmetricPositionning: false
 		},
 
 		_values: null,
 		_valuesChanged: false,
+		_initialized: false,
 
 		// Created elements
 		bar: null,
@@ -82,6 +84,7 @@
 		},
 
 		_initValues: function(){
+			this._initialized = true;
 			this.values(this._values.min, this._values.max);
 		},
 
@@ -96,6 +99,7 @@
 			this._setStepOption(key, value);
 			this._setScalesOption(key, value);
 			this._setEnabledOption(key, value);
+			this._setPositionningOption(key, value);
 		},
 
 		_validProperty: function(object, name, defaultValue){
@@ -219,6 +223,13 @@
 			}
 		},
 
+		_setPositionningOption: function(key, value){
+			if (key === "symmetricPositionning"){
+				this._rightHandle("option", key, value);
+				this.options[key] = this._leftHandle("option", key, value);
+			}
+		},
+
 		_createElements: function(){
 			if (this.element.css("position") !== "absolute"){
 				this.element.css("position", "relative");
@@ -263,14 +274,16 @@
 					isLeft: true,
 					bounds: this.options.bounds,
 					value: this._values.min,
-					step: this.options.step
+					step: this.options.step,
+					symmetricPositionning: this.options.symmetricPositionning
 			}).appendTo(this.container);
 	
 			this.rightHandle = this._createHandle({
 				isLeft: false,
 				bounds: this.options.bounds,
 				value: this._values.max,
-				step: this.options.step
+				step: this.options.step,
+				symmetricPositionning: this.options.symmetricPositionning
 			}).appendTo(this.container);
 		},
 		
@@ -639,6 +652,12 @@
 			var val;
 
 			if (typeof min !== "undefined" && typeof max !== "undefined"){
+				if (!this._initialized){
+					this._values.min = min;
+					this._values.max = max;
+					return this._values;
+				}
+
 				this._deactivateLabels();
 				val = this._bar("values", min, max);
 				this._changed(true);

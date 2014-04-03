@@ -143,6 +143,10 @@
 				.toggleClass("ui-rangeSlider-rightLabel", !this.options.isLeft);
 		},
 
+		_positionLabels: function(){
+			this._positionner.PositionLabels();
+		},
+
 		/*
 		 * Mouse touch redirection
 		 */
@@ -175,7 +179,7 @@
 			this.options.isLeft = isLeft;
 			
 			this._toggleClass();
-			this._positionner.PositionLabels();
+			this._positionLabels();
 		},
 
 		/*
@@ -207,7 +211,7 @@
 			this._display(this._handle("value"));
 
 			if (this.options.show === "show"){
-				this._positionner.PositionLabels();
+				this._positionLabels();
 			}
 		}
 	});
@@ -345,7 +349,11 @@
 			var label1Pos = this.GetRawPosition(this.cache.label1, this.cache.handle1),
 				label2Pos = this.GetRawPosition(this.cache.label2, this.cache.handle2);
 
-			this.ConstraintPositions(label1Pos, label2Pos);
+			if (this.label1[type]("option", "isLeft")){
+				this.ConstraintPositions(label1Pos, label2Pos);
+			}else{
+				this.ConstraintPositions(label2Pos, label1Pos);
+			}
 
 			this.PositionLabel(this.label1, label1Pos.left, this.cache.label1);
 			this.PositionLabel(this.label2, label2Pos.left, this.cache.label2);
@@ -371,12 +379,9 @@
 		}
 
 		this.ConstraintPositions = function(pos1, pos2){
-			if (pos1.center < pos2.center && pos1.outerRight > pos2.outerLeft){
+			if ((pos1.center < pos2.center && pos1.outerRight > pos2.outerLeft) || (pos1.center > pos2.center && pos2.outerRight > pos1.outerLeft)){
 				pos1 = this.getLeftPosition(pos1, pos2);
 				pos2 = this.getRightPosition(pos1, pos2);
-			}else if (pos1.center > pos2.center && pos2.outerRight > pos1.outerLeft){
-				pos2 = this.getLeftPosition(pos2, pos1);
-				pos1 = this.getRightPosition(pos2, pos1);
 			}
 		}
 
@@ -450,6 +455,7 @@
 
 		this.UpdatePosition = function(element, cache){
 			cache.offset = element.offset;
+			cache.value = element.value;
 		}
 
 		this.GetRawPosition = function(labelCache, handleCache){
